@@ -16,9 +16,9 @@ public static class CosmosDbAccessingFunction
     public static async Task<AcceptedResult> SaveToDatabase(
         [ActivityTrigger]  IDurableActivityContext context,
         [CosmosDB(
-            CosmosDbDatabaseName,
-            CosmosDbContainerName,
-            Connection = "AzureCosmosDbConnectionString")] IAsyncCollector<EmployeeModel> employees,
+            CosmosDbEmployeeDatabaseName,
+            CosmosDbEmployeeContainerName,
+            Connection = CosmosDbConnectionStringName)] IAsyncCollector<EmployeeModel> employees,
         ILogger log)
     {
         var fileName = context.GetInput<string>();

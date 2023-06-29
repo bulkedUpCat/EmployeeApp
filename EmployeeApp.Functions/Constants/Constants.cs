@@ -2,6 +2,7 @@
 
 public static class Constants
 {
-    public const string CosmosDbDatabaseName = "EmployeeDb";
-    public const string CosmosDbContainerName = "employees";
+    public const string CosmosDbEmployeeDatabaseName = "EmployeeDb";
+    public const string CosmosDbEmployeeContainerName = "employees";
+    public const string CosmosDbConnectionStringName = "AzureCosmosDbConnectionString";
 }
