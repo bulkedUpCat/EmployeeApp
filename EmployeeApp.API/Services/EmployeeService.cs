@@ -7,8 +7,8 @@ namespace EmployeeApp.API.Services;
 public class EmployeeService: IEmployeeService
 {
     private readonly EmployeeDataGenerator _employeeDataGenerator;
-    private readonly int _employeesCount = 2000;
-    
+    private const int EmployeesCount = 2000;
+
     public EmployeeService()
     {
         _employeeDataGenerator = new EmployeeDataGenerator();
@@ -16,7 +16,7 @@ public class EmployeeService: IEmployeeService
     
     public Task<IEnumerable<EmployeeModel>> GetAllAsync()
     {
-        var employees = _employeeDataGenerator.Generate(_employeesCount);
+        var employees = _employeeDataGenerator.Generate(EmployeesCount);
         return Task.FromResult(employees);
     }
 }
