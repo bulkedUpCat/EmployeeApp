@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Net.Http;
+﻿using System.Net.Http;
 using System.Threading.Tasks;
+using EmployeeApp.Functions.Utilities;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.DurableTask;
 using Microsoft.Azure.WebJobs.Extensions.Http;
@@ -27,8 +27,13 @@ public static class ChainingFunction
     public static async Task RunOrchestrator(
         [OrchestrationTrigger] IDurableOrchestrationContext context)
     {
-        var jsonFileName = await context.CallActivityAsync<string>(nameof(ApiCallingFunction.CallApi), null);
-        await context.CallActivityAsync(nameof(JsonToCsvConverterFunction.Convert), jsonFileName);
-        await context.CallActivityAsync(nameof(CosmosDbAccessingFunction.SaveToDatabase), jsonFileName);
+        var jsonFileName = await context.CallActivityWithRetryAsync<string>(
+            nameof(ApiCallingFunction.CallApi), FunctionRetryOptions.Options, null);
+        
+        await context.CallActivityWithRetryAsync(
+            nameof(JsonToCsvConverterFunction.Convert), FunctionRetryOptions.Options, jsonFileName);
+        
+        await context.CallActivityWithRetryAsync(
+            nameof(CosmosDbAccessingFunction.SaveToDatabase), FunctionRetryOptions.Options, jsonFileName);
     }
 }

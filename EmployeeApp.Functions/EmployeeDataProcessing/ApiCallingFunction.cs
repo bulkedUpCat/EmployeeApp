@@ -16,6 +16,7 @@ public static class ApiCallingFunction
     public static async Task<string> CallApi([ActivityTrigger]  IDurableActivityContext context, ILogger log)
     {
         var employeesEndpointUrl = Environment.GetEnvironmentVariable("ApiUrl") + "employees";
+        
         const string fileName = "employees.json";
 
         var response = await employeesEndpointUrl
